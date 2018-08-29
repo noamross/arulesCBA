@@ -3,7 +3,7 @@ CBA <- function(formula, data, support = 0.2, confidence = 0.8, verbose = FALSE,
   disc.method = "mdlp"){
 
   return(CBA.internal(formula, data, method="CBA", support = support, confidence = confidence,
-    verbose=FALSE, parameter = NULL, control = NULL, sort.parameter = sort.parameter, lhs.support=lhs.support,
+    verbose=FALSE, parameter = parameter, control = control, sort.parameter = sort.parameter, lhs.support=lhs.support,
     disc.method = disc.method))
 
 }
@@ -23,10 +23,12 @@ CBA.internal <- function(formula, data, method="boosted", support = 0.2, confide
       " and confidence=", confidence)
   }
 
-  if(is.null(parameter)) parameter <- list()
-  parameter$support <- support
-  parameter$confidence <- confidence
-  parameter$minlen <- 2
+  if(is.null(parameter)) {
+    parameter <- list()
+    parameter$support <- support
+    parameter$confidence <- confidence
+    parameter$minlen <- 2
+  }
 
   if(is.null(control)) control <- list()
   control$verbose <- verbose
@@ -63,8 +65,9 @@ CBA.internal <- function(formula, data, method="boosted", support = 0.2, confide
   if(lhs.support){
 
     parameter$minlen <- 1
+    parameter$target <- "frequent"
     pot_lhs <- apriori(ds.mat, control=control,
-      parameter = list(support=support, confidence=confidence, target = "frequent"),
+      parameter = parameter,
       appearance = list(items = vars))
 
     n <- length(pot_lhs)
