@@ -1,17 +1,17 @@
 CBA <- function(formula, data, support = 0.2, confidence = 0.8, verbose = FALSE,
   parameter = NULL, control = NULL, sort.parameter = NULL, lhs.support = FALSE,
-  disc.method = "mdlp"){
+  disc.method = "mdlp", class_subset = NULL){
 
   return(CBA.internal(formula, data, method="CBA", support = support, confidence = confidence,
     verbose=FALSE, parameter = parameter, control = control, sort.parameter = sort.parameter, lhs.support=lhs.support,
-    disc.method = disc.method))
+    disc.method = disc.method, class_subset = class_subset))
 
 }
 
 
 CBA.internal <- function(formula, data, method="boosted", support = 0.2, confidence = 0.8, gamma = 0.05, cost = 10.0,
   verbose=FALSE, parameter = NULL, control = NULL, sort.parameter=NULL, lhs.support=TRUE, class.weights=NULL,
-  disc.method="mdlp"){
+  disc.method="mdlp", class_subset = NULL) {
 
   if(method == "boosted"){
     description <- paste0("Transaction boosted associative classifier with support=", support,
@@ -19,8 +19,7 @@ CBA.internal <- function(formula, data, method="boosted", support = 0.2, confide
   } else if(method == "weighted"){
     description <- "Weighted CBA algorithm"
   } else {
-    description <- paste0("CBA algorithm by Liu, et al. 1998 with support=", support,
-      " and confidence=", confidence)
+    description <- paste0("CBA algorithm by Liu, et al. 1998")
   }
 
   if(is.null(parameter)) {
@@ -90,8 +89,13 @@ CBA.internal <- function(formula, data, method="boosted", support = 0.2, confide
 
   } else {
     #Generate association rules with apriori
+    if(is.null(class_subset)) {
+      class0 <- class
+    } else {
+      class0 <- class[class %in% class_subset]
+    }
     rules <- apriori(ds.mat, parameter = parameter,
-      appearance = list(rhs=class, lhs=vars),
+      appearance = list(rhs=class0, lhs=vars),
       control=control)
   }
 

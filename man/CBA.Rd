@@ -24,6 +24,8 @@ CBA(formula, data, support = 0.2, confidence = 0.8,
   \item{sort.parameter}{Ordered vector of arules interest measures (as characters) which are used to sort rules in preprocessing.}
   \item{lhs.support}{Logical variable, which, when set to TRUE, indicates that LHS support should be used for rule mining. lhs.support rule mining is considerably slower than normal mining.}
 	\item{disc.method}{Discretization method for factorizing numeric input (default: \code{"mdlp"}). See \code{\link{discretizeDF.supervised}} for more supervised discretization methods.}
+	\item{class_subset}{Limit rules to those with this class output.  Optional. Should be vector of the form \code{"class=value"}}.
+
 }
 \details{
   Formats the input data frame and calls a C implementation of the CBA algorithm
