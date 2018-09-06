@@ -89,10 +89,10 @@ CBA.internal <- function(formula, data, method="boosted", support = 0.2, confide
 
   } else {
     #Generate association rules with apriori
-    if(is.null(class_subset)) {
+    if(is.null(class.subset)) {
       class0 <- class
     } else {
-      class0 <- class[class %in% class_subset]
+      class0 <- class[class %in% class.subset]
     }
     rules <- apriori(ds.mat, parameter = parameter,
       appearance = list(rhs=class0, lhs=vars),
