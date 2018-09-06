@@ -1,17 +1,17 @@
 CBA <- function(formula, data, support = 0.2, confidence = 0.8, verbose = FALSE,
   parameter = NULL, control = NULL, sort.parameter = NULL, lhs.support = FALSE,
-  disc.method = "mdlp", class_subset = NULL){
+  disc.method = "mdlp", class.subset = NULL, class.weights=NULL){
 
   return(CBA.internal(formula, data, method="CBA", support = support, confidence = confidence,
     verbose=FALSE, parameter = parameter, control = control, sort.parameter = sort.parameter, lhs.support=lhs.support,
-    disc.method = disc.method, class_subset = class_subset))
+    disc.method = disc.method, class.subset = class.subset, class.weights=class.weights))
 
 }
 
 
 CBA.internal <- function(formula, data, method="boosted", support = 0.2, confidence = 0.8, gamma = 0.05, cost = 10.0,
   verbose=FALSE, parameter = NULL, control = NULL, sort.parameter=NULL, lhs.support=TRUE, class.weights=NULL,
-  disc.method="mdlp", class_subset = NULL) {
+  disc.method="mdlp", class.subset = NULL) {
 
   if(method == "boosted"){
     description <- paste0("Transaction boosted associative classifier with support=", support,
@@ -106,7 +106,7 @@ CBA.internal <- function(formula, data, method="boosted", support = 0.2, confide
       #      rules.sorted <- sort(rules, by=c("confidence", "support", "lift"))
       ### MFH: CBA does not sort by lift
       rules.sorted <- sort(rules, by=c("confidence", "support"))
-    } else {
+    } else {lo
       rules.sorted <- sort(rules, by=sort.parameter)
     }
 
