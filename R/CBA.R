@@ -106,7 +106,7 @@ CBA.internal <- function(formula, data, method="boosted", support = 0.2, confide
       #      rules.sorted <- sort(rules, by=c("confidence", "support", "lift"))
       ### MFH: CBA does not sort by lift
       rules.sorted <- sort(rules, by=c("confidence", "support"))
-    } else {lo
+    } else {
       rules.sorted <- sort(rules, by=sort.parameter)
     }
 
